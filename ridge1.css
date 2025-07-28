@@ -1,0 +1,372 @@
+  
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-dark: #1a1a1a;
+            --bg-light: #f4f4f4;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --accent-primary: #e74c3c;
+            --accent-secondary: #c0392b;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* --- GENERAL STYLING --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem auto;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* --- HEADER & NAVIGATION TRIGGER --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+        
+        .main-header.scrolled {
+             background-color: rgba(26, 26, 26, 0.85);
+             backdrop-filter: blur(10px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: var(--text-light);
+            z-index: 1001;
+        }
+
+         .logo img {
+  height: 40px; /* or adjust as needed */
+  display: block;
+}
+
+        .menu-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            color: var(--accent-primary);
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 24px;
+            height: 20px;
+        }
+
+        .hamburger .bar {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-light);
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .menu-toggle:hover .bar {
+            background-color: var(--accent-primary);
+        }
+
+        .menu-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* --- FULL SCREEN NAVIGATION MENU --- */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111111;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .nav-overlay.active {
+            transform: translateX(0);
+        }
+
+        .nav-menu {
+            list-style: none;
+            text-align: center;
+        }
+
+        .nav-menu li {
+            margin: 1rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .nav-overlay.active .nav-menu li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation for menu items */
+        .nav-overlay.active .nav-menu li:nth-child(1) { transition-delay: 0.2s; }
+        .nav-overlay.active .nav-menu li:nth-child(2) { transition-delay: 0.3s; }
+        .nav-overlay.active .nav-menu li:nth-child(3) { transition-delay: 0.4s; }
+        .nav-overlay.active .nav-menu li:nth-child(4) { transition-delay: 0.5s; }
+        .nav-overlay.active .nav-menu li:nth-child(5) { transition-delay: 0.6s; }
+
+
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-primary);
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-menu a:hover, .nav-menu a:focus {
+            color: var(--text-light); /* Keep color consistent */
+        }
+        
+        .nav-menu a:hover::after, .nav-menu a:focus::after {
+            transform: scaleX(1);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.9)), url('https://images.unsplash.com/photo-1444723121867-7a241cacace9?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            max-width: 900px;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2.5rem;
+        }
+
+       
+        
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: var(--text-light);
+            border: 2px solid var(--accent-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- CORE DISCIPLINES SECTION --- */
+        .disciplines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .discipline-card {
+            background-color: #222222;
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .discipline-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-primary);
+        }
+        
+        .discipline-card .icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .discipline-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .discipline-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        /* --- ADVANTAGE SECTION --- */
+        #advantage {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        #advantage .section-subtitle { color: #555; }
+        
+        .advantage-item {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        
+        .advantage-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .advantage-text { flex: 1; }
+        .advantage-image { flex: 1; }
+        
+        .advantage-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .advantage-text h3 {
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        .main-footer .logo { margin-bottom: 1.5rem; display: inline-block; }
+        .main-footer p { color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; }
+
+        /* --- SCROLL ANIMATIONS --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .advantage-item, .advantage-item:nth-child(even) {
+                flex-direction: column;
+            }
+        }
